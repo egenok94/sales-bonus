@@ -48,10 +48,10 @@ function analyzeSalesData(data, options) {
     } 
 
     // @TODO: Проверка наличия опций
-     const { calculateSimpleRevenue, calculateBonusByProfit } = options;
+     const { calculateRevenue, calculateBonus } = options;
 
-     typeof calculateSimpleRevenue === "function";
-     typeof calculateBonusByProfit === "function";
+     typeof calculateRevenue === "function";
+     typeof calculateBonus === "function";
 
     // @TODO: Подготовка промежуточных данных для сбора статистики
     const sellerStats = data.sellers.map(seller => ({
@@ -83,7 +83,7 @@ function analyzeSalesData(data, options) {
         record.items.forEach(item => {
             const product = productIndex[item.sku];
             const cost = product.purchase_price * item.quantity;
-            const revenue = calculateSimpleRevenue(item);
+            const revenue = calculateRevenue(item);
             seller.profit += revenue - cost;
 
             if (!seller.products_sold[item.sku]) {
@@ -109,7 +109,7 @@ function analyzeSalesData(data, options) {
     // @TODO: Назначение премий на основе ранжирования
 
     sellerStats.forEach((seller, index) => {
-        seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller);
+        seller.bonus = calculateBonus(index, sellerStats.length, seller);
 
         seller.products_sold = Object.entries(seller.products_sold);
 
