@@ -48,9 +48,10 @@ function analyzeSalesData(data, options) {
     } 
 
     // @TODO: Проверка наличия опций
-     const { calculateRevenue, calculateBonus } = options;
+     const { calculateSimpleRevenue, calculateBonusByProfit } = options;
 
-     typeof calculateRevenue === "function";
+     typeof calculateSimpleRevenue === "function";
+     typeof calculateBonusByProfit === "function";
 
     // @TODO: Подготовка промежуточных данных для сбора статистики
     const sellerStats = data.sellers.map(seller => ({
